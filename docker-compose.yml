@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    env_file: stack.env
+    volumes:
+      - /var/casaos/appdata/mccms/mysql:/var/lib/mysql
+    networks:
+      - mccms-net
+
+  web:
+    image: php:7.4-apache
+    ports:
+      - "8090:80"  # 修正端口映射
+    volumes:
+      - /var/casaos/appdata/mccms/html:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - mccms-net
+
+networks:
+  mccms-net:
+    driver: bridge  # 修正拼写
